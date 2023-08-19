@@ -14,8 +14,8 @@ public class MazeGenerator : MonoBehaviour
     private float width;
     private float length;
     private Cell[] grid;
-    private int rowSize;
-    private int columnSize;
+    private float rowSize;
+    private float columnSize;
     private float offset;
     private float scale;
 
@@ -23,6 +23,7 @@ public class MazeGenerator : MonoBehaviour
     {
         width = transform.localScale.x * 10;
         length = transform.localScale.z * 10;
+        scale = 10f / Convert.ToSingle(Dimensions);
         UnityEngine.Random.InitState(3466);
         GenerateMaze();
     }
@@ -32,8 +33,8 @@ public class MazeGenerator : MonoBehaviour
     /// </summary>
     private void GenerateMaze()
     {
-        columnSize = Convert.ToInt32(Math.Floor(length / Dimensions));
-        rowSize = Convert.ToInt32(Math.Floor(width / Dimensions));
+        columnSize = length / Dimensions;
+        rowSize = width / Dimensions;
         grid = new Cell[Dimensions * Dimensions];
         Stack stack = new Stack();
         offset = -(width / 2); //TODO adjust for non-square offsets
@@ -43,7 +44,7 @@ public class MazeGenerator : MonoBehaviour
         { 
             for (int c=0; c<Dimensions; c++)
             {
-                Cell newCell = new Cell(r, c, counter, Dimensions);
+                Cell newCell = new Cell(r, c, counter);
                 grid[counter++] = newCell;
             }
         }
@@ -82,22 +83,29 @@ public class MazeGenerator : MonoBehaviour
     private void CreateWalls(int cellIndex)
     {
         GameObject newTopWall = Instantiate(WallPrefab);
+
+        Vector3 scalar = newTopWall.transform.localScale;
+
         newTopWall.transform.parent = transform;
-        newTopWall.transform.localPosition = new Vector3((grid[cellIndex].r * rowSize) + .5f + offset, .5f, (grid[cellIndex].c * columnSize) + 1f + offset);
+        newTopWall.transform.localPosition = new Vector3((grid[cellIndex].r * rowSize) + .5f + offset - ((1 - scale) / 2), .5f, (grid[cellIndex].c * columnSize) + 1f + offset - (1 - scale));
+        newTopWall.transform.localScale = new Vector3(scalar.x * scale, scalar.y, scalar.z);
 
         GameObject newRightWall = Instantiate(WallPrefab);
         newRightWall.transform.parent = transform;
-        newRightWall.transform.localPosition = new Vector3((grid[cellIndex].r * rowSize) + 1f + offset, .5f, (grid[cellIndex].c * columnSize) + .5f + offset);
+        newRightWall.transform.localPosition = new Vector3((grid[cellIndex].r * rowSize) + 1f + offset - (1 - scale), .5f, (grid[cellIndex].c * columnSize) + .5f + offset - ((1 - scale) / 2));
         newRightWall.transform.localRotation = Quaternion.Euler(0, 90, 0);
+        newRightWall.transform.localScale = new Vector3(scalar.x * scale, scalar.y, scalar.z);
 
         GameObject newBottomWall = Instantiate(WallPrefab);
         newBottomWall.transform.parent = transform;
-        newBottomWall.transform.localPosition = new Vector3((grid[cellIndex].r * rowSize) + .5f + offset, .5f, (grid[cellIndex].c * columnSize) + offset);
+        newBottomWall.transform.localPosition = new Vector3((grid[cellIndex].r * rowSize) + .5f + offset - ((1 - scale) / 2), .5f, (grid[cellIndex].c * columnSize) + offset);
+        newBottomWall.transform.localScale = new Vector3(scalar.x * scale, scalar.y, scalar.z);
 
         GameObject newLeftWall = Instantiate(WallPrefab);
         newLeftWall.transform.parent = transform;
-        newLeftWall.transform.localPosition = new Vector3((grid[cellIndex].r * rowSize) + offset, .5f, (grid[cellIndex].c * columnSize) + .5f + offset);
+        newLeftWall.transform.localPosition = new Vector3((grid[cellIndex].r * rowSize) + offset, .5f, (grid[cellIndex].c * columnSize) + .5f + offset - ((1 - scale) / 2));
         newLeftWall.transform.localRotation = Quaternion.Euler(0, 90, 0);
+        newLeftWall.transform.localScale = new Vector3(scalar.x * scale, scalar.y, scalar.z);
     }
 
     /// <summary>
@@ -223,16 +231,13 @@ public class Cell
     public int r { get; set; }
     public int c { get; set; }
     public int i { get; set; }
-
-    public float w { get; set; }
     public bool visited { get; set; }
 
-    public Cell(int _r, int _c, int _i, float _size)
+    public Cell(int _r, int _c, int _i)
     {
         r = _r;
         c = _c;
         i = _i;
-        w = _size;
         visited = false;
     }
 }

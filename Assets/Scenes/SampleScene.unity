@@ -250,7 +250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WallPrefab: {fileID: 4277969212343039079, guid: 4682ac0eca9528b43a752e29467bce0c, type: 3}
-  Dimensions: 10
+  Dimensions: 6
 --- !u!64 &920071843
 MeshCollider:
   m_ObjectHideFlags: 0
