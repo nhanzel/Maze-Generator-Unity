@@ -124,7 +124,7 @@ public class MazeGenerator : MonoBehaviour
             //bottom of current, top of next
             foreach (Transform child in transform)
             {
-                if (child.localPosition == new Vector3((current.c * rowSize) + .5f + offset, .5f, (current.r * columnSize) + offset))
+                if (child.localPosition == new Vector3((current.c * rowSize) + .5f + offset - ((1 - scale) / 2), .5f, (current.r * columnSize) + offset))
                 {
                     toBeRemoved.Add(child.gameObject);
                 }
@@ -135,7 +135,7 @@ public class MazeGenerator : MonoBehaviour
             //top of current, bottom of next
             foreach (Transform child in transform)
             {
-                if (child.localPosition == new Vector3((current.c * rowSize) + .5f + offset, .5f, (current.r * columnSize) + 1f + offset))
+                if (child.localPosition == new Vector3((current.c * rowSize) + .5f + offset - ((1 - scale) / 2), .5f, (current.r * columnSize) + 1f + offset - (1 - scale)))
                 {
                     toBeRemoved.Add(child.gameObject);
                 }
@@ -148,7 +148,7 @@ public class MazeGenerator : MonoBehaviour
             //left of current, right of next
             foreach (Transform child in transform)
             {
-                if (child.localPosition == new Vector3((current.c * rowSize) + offset, .5f, (current.r * columnSize) + .5f + offset))
+                if (child.localPosition == new Vector3((current.c * rowSize) + offset, .5f, (current.r * columnSize) + .5f + offset - ((1 - scale) / 2)))
                 {
                     toBeRemoved.Add(child.gameObject);
                 }
@@ -159,7 +159,7 @@ public class MazeGenerator : MonoBehaviour
             //right of current, left of next
             foreach (Transform child in transform)
             {
-                if (child.localPosition == new Vector3((current.c * rowSize) + 1f + offset, .5f, (current.r * columnSize) + .5f + offset))
+                if (child.localPosition == new Vector3((current.c * rowSize) + 1f + offset - (1 - scale), .5f, (current.r * columnSize) + .5f + offset - ((1 - scale) / 2)))
                 {
                     toBeRemoved.Add(child.gameObject);
                 }
