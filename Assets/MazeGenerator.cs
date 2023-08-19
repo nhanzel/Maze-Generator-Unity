@@ -17,33 +17,33 @@ public class MazeGenerator : MonoBehaviour
     private int rowSize;
     private int columnSize;
     private float offset;
+    private float scale;
 
     public void Start()
     {
         width = transform.localScale.x * 10;
         length = transform.localScale.z * 10;
         UnityEngine.Random.InitState(3466);
-        GenerateMaze(Dimensions);
+        GenerateMaze();
     }
 
     /// <summary>
     /// Generates a maze of the given dimensions
     /// </summary>
-    /// <param name="dimensions"></param>
-    private void GenerateMaze(int dimensions)
+    private void GenerateMaze()
     {
-        columnSize = Convert.ToInt32(Math.Floor(length / dimensions));
-        rowSize = Convert.ToInt32(Math.Floor(width / dimensions));
-        grid = new Cell[dimensions * dimensions];
+        columnSize = Convert.ToInt32(Math.Floor(length / Dimensions));
+        rowSize = Convert.ToInt32(Math.Floor(width / Dimensions));
+        grid = new Cell[Dimensions * Dimensions];
         Stack stack = new Stack();
         offset = -(width / 2); //TODO adjust for non-square offsets
 
         int counter = 0;
-        for (int r=0; r<dimensions; r++) 
+        for (int r=0; r<Dimensions; r++) 
         { 
-            for (int c=0; c<dimensions; c++)
+            for (int c=0; c<Dimensions; c++)
             {
-                Cell newCell = new Cell(r, c, counter, dimensions);
+                Cell newCell = new Cell(r, c, counter, Dimensions);
                 grid[counter++] = newCell;
             }
         }
