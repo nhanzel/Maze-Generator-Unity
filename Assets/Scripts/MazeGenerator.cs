@@ -90,23 +90,23 @@ public class MazeGenerator : MonoBehaviour
         Vector3 scalar = newTopWall.transform.localScale;
 
         newTopWall.transform.parent = transform;
-        newTopWall.transform.localPosition = new Vector3((grid[cellIndex].r * rowSize) + .5f + offset - ((1 - scale) / 2), wallHeight, (grid[cellIndex].c * columnSize) + 1f + offset - (1 - scale));
+        newTopWall.transform.localPosition = new Vector3((grid[cellIndex].c * rowSize) + .5f + offset - ((1 - scale) / 2), wallHeight, (grid[cellIndex].r * columnSize) + 1f + offset - (1 - scale));
         newTopWall.transform.localScale = new Vector3(scalar.x * scale, Height, scalar.z);
 
         GameObject newRightWall = Instantiate(WallPrefab);
         newRightWall.transform.parent = transform;
-        newRightWall.transform.localPosition = new Vector3((grid[cellIndex].r * rowSize) + 1f + offset - (1 - scale), wallHeight, (grid[cellIndex].c * columnSize) + .5f + offset - ((1 - scale) / 2));
+        newRightWall.transform.localPosition = new Vector3((grid[cellIndex].c * rowSize) + 1f + offset - (1 - scale), wallHeight, (grid[cellIndex].r * columnSize) + .5f + offset - ((1 - scale) / 2));
         newRightWall.transform.localRotation = Quaternion.Euler(0, 90, 0);
         newRightWall.transform.localScale = new Vector3(scalar.x * scale, Height, scalar.z);
 
         GameObject newBottomWall = Instantiate(WallPrefab);
         newBottomWall.transform.parent = transform;
-        newBottomWall.transform.localPosition = new Vector3((grid[cellIndex].r * rowSize) + .5f + offset - ((1 - scale) / 2), wallHeight, (grid[cellIndex].c * columnSize) + offset);
+        newBottomWall.transform.localPosition = new Vector3((grid[cellIndex].c * rowSize) + .5f + offset - ((1 - scale) / 2), wallHeight, (grid[cellIndex].r * columnSize) + offset);
         newBottomWall.transform.localScale = new Vector3(scalar.x * scale, Height, scalar.z);
 
         GameObject newLeftWall = Instantiate(WallPrefab);
         newLeftWall.transform.parent = transform;
-        newLeftWall.transform.localPosition = new Vector3((grid[cellIndex].r * rowSize) + offset, wallHeight, (grid[cellIndex].c * columnSize) + .5f + offset - ((1 - scale) / 2));
+        newLeftWall.transform.localPosition = new Vector3((grid[cellIndex].c * rowSize) + offset, wallHeight, (grid[cellIndex].r * columnSize) + .5f + offset - ((1 - scale) / 2));
         newLeftWall.transform.localRotation = Quaternion.Euler(0, 90, 0);
         newLeftWall.transform.localScale = new Vector3(scalar.x * scale, Height, scalar.z);
     }
