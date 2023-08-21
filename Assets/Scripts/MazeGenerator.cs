@@ -11,6 +11,7 @@ public class MazeGenerator : MonoBehaviour
     public GameObject WallPrefab;
 
     public int Dimensions; //TODO adjust ot not just be a square
+    public float Height;
     private float width;
     private float length;
     private Cell[] grid;
@@ -18,12 +19,14 @@ public class MazeGenerator : MonoBehaviour
     private float columnSize;
     private float offset;
     private float scale;
+    private float wallHeight;
 
     public void Start()
     {
         width = transform.localScale.x * 10;
         length = transform.localScale.z * 10;
         scale = 10f / Convert.ToSingle(Dimensions);
+        wallHeight = Height / 2;
         UnityEngine.Random.InitState(3466);
         GenerateMaze();
     }
@@ -87,25 +90,25 @@ public class MazeGenerator : MonoBehaviour
         Vector3 scalar = newTopWall.transform.localScale;
 
         newTopWall.transform.parent = transform;
-        newTopWall.transform.localPosition = new Vector3((grid[cellIndex].r * rowSize) + .5f + offset - ((1 - scale) / 2), .5f, (grid[cellIndex].c * columnSize) + 1f + offset - (1 - scale));
-        newTopWall.transform.localScale = new Vector3(scalar.x * scale, scalar.y, scalar.z);
+        newTopWall.transform.localPosition = new Vector3((grid[cellIndex].r * rowSize) + .5f + offset - ((1 - scale) / 2), wallHeight, (grid[cellIndex].c * columnSize) + 1f + offset - (1 - scale));
+        newTopWall.transform.localScale = new Vector3(scalar.x * scale, Height, scalar.z);
 
         GameObject newRightWall = Instantiate(WallPrefab);
         newRightWall.transform.parent = transform;
-        newRightWall.transform.localPosition = new Vector3((grid[cellIndex].r * rowSize) + 1f + offset - (1 - scale), .5f, (grid[cellIndex].c * columnSize) + .5f + offset - ((1 - scale) / 2));
+        newRightWall.transform.localPosition = new Vector3((grid[cellIndex].r * rowSize) + 1f + offset - (1 - scale), wallHeight, (grid[cellIndex].c * columnSize) + .5f + offset - ((1 - scale) / 2));
         newRightWall.transform.localRotation = Quaternion.Euler(0, 90, 0);
-        newRightWall.transform.localScale = new Vector3(scalar.x * scale, scalar.y, scalar.z);
+        newRightWall.transform.localScale = new Vector3(scalar.x * scale, Height, scalar.z);
 
         GameObject newBottomWall = Instantiate(WallPrefab);
         newBottomWall.transform.parent = transform;
-        newBottomWall.transform.localPosition = new Vector3((grid[cellIndex].r * rowSize) + .5f + offset - ((1 - scale) / 2), .5f, (grid[cellIndex].c * columnSize) + offset);
-        newBottomWall.transform.localScale = new Vector3(scalar.x * scale, scalar.y, scalar.z);
+        newBottomWall.transform.localPosition = new Vector3((grid[cellIndex].r * rowSize) + .5f + offset - ((1 - scale) / 2), wallHeight, (grid[cellIndex].c * columnSize) + offset);
+        newBottomWall.transform.localScale = new Vector3(scalar.x * scale, Height, scalar.z);
 
         GameObject newLeftWall = Instantiate(WallPrefab);
         newLeftWall.transform.parent = transform;
-        newLeftWall.transform.localPosition = new Vector3((grid[cellIndex].r * rowSize) + offset, .5f, (grid[cellIndex].c * columnSize) + .5f + offset - ((1 - scale) / 2));
+        newLeftWall.transform.localPosition = new Vector3((grid[cellIndex].r * rowSize) + offset, wallHeight, (grid[cellIndex].c * columnSize) + .5f + offset - ((1 - scale) / 2));
         newLeftWall.transform.localRotation = Quaternion.Euler(0, 90, 0);
-        newLeftWall.transform.localScale = new Vector3(scalar.x * scale, scalar.y, scalar.z);
+        newLeftWall.transform.localScale = new Vector3(scalar.x * scale, Height, scalar.z);
     }
 
     /// <summary>
@@ -124,7 +127,7 @@ public class MazeGenerator : MonoBehaviour
             //bottom of current, top of next
             foreach (Transform child in transform)
             {
-                if (child.localPosition == new Vector3((current.c * rowSize) + .5f + offset - ((1 - scale) / 2), .5f, (current.r * columnSize) + offset))
+                if (child.localPosition == new Vector3((current.c * rowSize) + .5f + offset - ((1 - scale) / 2), wallHeight, (current.r * columnSize) + offset))
                 {
                     toBeRemoved.Add(child.gameObject);
                 }
@@ -135,7 +138,7 @@ public class MazeGenerator : MonoBehaviour
             //top of current, bottom of next
             foreach (Transform child in transform)
             {
-                if (child.localPosition == new Vector3((current.c * rowSize) + .5f + offset - ((1 - scale) / 2), .5f, (current.r * columnSize) + 1f + offset - (1 - scale)))
+                if (child.localPosition == new Vector3((current.c * rowSize) + .5f + offset - ((1 - scale) / 2), wallHeight, (current.r * columnSize) + 1f + offset - (1 - scale)))
                 {
                     toBeRemoved.Add(child.gameObject);
                 }
@@ -148,7 +151,7 @@ public class MazeGenerator : MonoBehaviour
             //left of current, right of next
             foreach (Transform child in transform)
             {
-                if (child.localPosition == new Vector3((current.c * rowSize) + offset, .5f, (current.r * columnSize) + .5f + offset - ((1 - scale) / 2)))
+                if (child.localPosition == new Vector3((current.c * rowSize) + offset, wallHeight, (current.r * columnSize) + .5f + offset - ((1 - scale) / 2)))
                 {
                     toBeRemoved.Add(child.gameObject);
                 }
@@ -159,7 +162,7 @@ public class MazeGenerator : MonoBehaviour
             //right of current, left of next
             foreach (Transform child in transform)
             {
-                if (child.localPosition == new Vector3((current.c * rowSize) + 1f + offset - (1 - scale), .5f, (current.r * columnSize) + .5f + offset - ((1 - scale) / 2)))
+                if (child.localPosition == new Vector3((current.c * rowSize) + 1f + offset - (1 - scale), wallHeight, (current.r * columnSize) + .5f + offset - ((1 - scale) / 2)))
                 {
                     toBeRemoved.Add(child.gameObject);
                 }
@@ -240,33 +243,4 @@ public class Cell
         i = _i;
         visited = false;
     }
-}
-
-//-------------------------------------------------------------------------//
-
-public class MazeParams
-{
-    public int width { get; set; }
-
-    public int height { get; set; }
-
-    public int seed { get; set; } = 0;
-
-    public bool useWindows { get; set; } = false;
-
-    public double windowProbability { get; set; } = 0.0;
-
-    public Algorithm algorithm { get; set; }
-
-    public bool useRooms { get; set; } = false;
-
-    public double roomProbability { get; set; } = 0.0;
-
-    public bool fixedPlaneSize { get; set; } = false;
-}
-
-public enum Algorithm
-{
-    DepthFirst,
-    BreadthFirst
 }
