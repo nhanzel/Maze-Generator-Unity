@@ -25,8 +25,8 @@ public class MazeGenerator : MonoBehaviour
 
     public void Start()
     {
-        width = transform.localScale.x * 10;
-        length = transform.localScale.z * 10;
+        width = 10;
+        length = 10;
         rowScale = 10f / Convert.ToSingle(Rows);
         columnScale = 10f / Convert.ToSingle(Columns);
         wallHeight = Height / 2;
@@ -101,7 +101,6 @@ public class MazeGenerator : MonoBehaviour
         newRightWall.transform.localPosition = new Vector3((grid[cellIndex].c * columnSize) + 1f + offset - (1 - columnScale), wallHeight, (grid[cellIndex].r * rowSize) + .5f + offset - ((1 - rowScale) / 2));
         newRightWall.transform.localRotation = Quaternion.Euler(0, 90, 0);
         newRightWall.transform.localScale = new Vector3(scalar.x * rowScale, Height, scalar.z);
-        newRightWall.GetComponent<Renderer>().material.color = Color.blue;
 
         GameObject newBottomWall = Instantiate(WallPrefab);
         newBottomWall.transform.parent = transform;
@@ -113,7 +112,6 @@ public class MazeGenerator : MonoBehaviour
         newLeftWall.transform.localPosition = new Vector3((grid[cellIndex].c * columnSize) + offset, wallHeight, (grid[cellIndex].r * rowSize) + .5f + offset - ((1 - rowScale) / 2));
         newLeftWall.transform.localRotation = Quaternion.Euler(0, 90, 0);
         newLeftWall.transform.localScale = new Vector3(scalar.x * rowScale, Height, scalar.z);
-        newLeftWall.GetComponent<Renderer>().material.color = Color.blue;
     }
 
     /// <summary>
