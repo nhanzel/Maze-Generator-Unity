@@ -512,9 +512,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WallPrefab: {fileID: 4277969212343039079, guid: 4682ac0eca9528b43a752e29467bce0c, type: 3}
-  Rows: 10
-  Columns: 5
-  Height: 1
+  Rows: 1
+  Columns: 1
+  WallHeight: 1
+  WallThickness: 0.25
+  UseSeed: 0
+  Seed: 0
 --- !u!64 &920071843
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -588,7 +591,7 @@ Transform:
   m_GameObject: {fileID: 920071841}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

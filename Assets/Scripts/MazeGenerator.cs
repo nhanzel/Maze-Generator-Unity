@@ -10,9 +10,17 @@ public class MazeGenerator : MonoBehaviour
 {
     public GameObject WallPrefab;
 
-    public int Rows;
-    public int Columns;
-    public float Height;
+    [Header("Dimensions")]
+    public int Rows = 10;
+    public int Columns = 10;
+    [Header("Walls")]
+    public float WallHeight = 1f;
+    [Range(.25f, 10f)]
+    public float WallThickness = 1f;
+    [Header("Seed")]
+    public bool UseSeed = false;
+    public int Seed = 0;
+
     private float width;
     private float length;
     private Cell[] grid;
@@ -29,8 +37,8 @@ public class MazeGenerator : MonoBehaviour
         length = 10;
         rowScale = 10f / Convert.ToSingle(Rows);
         columnScale = 10f / Convert.ToSingle(Columns);
-        wallHeight = Height / 2;
-        UnityEngine.Random.InitState(3466);
+        wallHeight = WallHeight / 2;
+        if (UseSeed) { UnityEngine.Random.InitState(Seed); }
         GenerateMaze();
     }
 
@@ -94,24 +102,24 @@ public class MazeGenerator : MonoBehaviour
 
         newTopWall.transform.parent = transform;
         newTopWall.transform.localPosition = new Vector3((grid[cellIndex].c * columnSize) + .5f + offset - ((1 - columnScale) / 2), wallHeight, (grid[cellIndex].r * rowSize) + 1f + offset - (1 - rowScale));
-        newTopWall.transform.localScale = new Vector3(scalar.x * columnScale, Height, scalar.z);
+        newTopWall.transform.localScale = new Vector3(scalar.x * columnScale, WallHeight, scalar.z * WallThickness);
 
         GameObject newRightWall = Instantiate(WallPrefab);
         newRightWall.transform.parent = transform;
         newRightWall.transform.localPosition = new Vector3((grid[cellIndex].c * columnSize) + 1f + offset - (1 - columnScale), wallHeight, (grid[cellIndex].r * rowSize) + .5f + offset - ((1 - rowScale) / 2));
         newRightWall.transform.localRotation = Quaternion.Euler(0, 90, 0);
-        newRightWall.transform.localScale = new Vector3(scalar.x * rowScale, Height, scalar.z);
+        newRightWall.transform.localScale = new Vector3(scalar.x * rowScale, WallHeight, scalar.z * WallThickness);
 
         GameObject newBottomWall = Instantiate(WallPrefab);
         newBottomWall.transform.parent = transform;
         newBottomWall.transform.localPosition = new Vector3((grid[cellIndex].c * columnSize) + .5f + offset - ((1 - columnScale) / 2), wallHeight, (grid[cellIndex].r * rowSize) + offset);
-        newBottomWall.transform.localScale = new Vector3(scalar.x * columnScale, Height, scalar.z);
+        newBottomWall.transform.localScale = new Vector3(scalar.x * columnScale, WallHeight, scalar.z * WallThickness);
 
         GameObject newLeftWall = Instantiate(WallPrefab);
         newLeftWall.transform.parent = transform;
         newLeftWall.transform.localPosition = new Vector3((grid[cellIndex].c * columnSize) + offset, wallHeight, (grid[cellIndex].r * rowSize) + .5f + offset - ((1 - rowScale) / 2));
         newLeftWall.transform.localRotation = Quaternion.Euler(0, 90, 0);
-        newLeftWall.transform.localScale = new Vector3(scalar.x * rowScale, Height, scalar.z);
+        newLeftWall.transform.localScale = new Vector3(scalar.x * rowScale, WallHeight, scalar.z * WallThickness);
     }
 
     /// <summary>
