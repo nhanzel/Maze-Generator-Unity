@@ -1,9 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
-using System.Reflection;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class MazeGenerator : MonoBehaviour
@@ -30,16 +27,52 @@ public class MazeGenerator : MonoBehaviour
     private float rowScale;
     private float columnScale;
     private float wallHeight;
+    private bool hasError;
 
     public void Start()
     {
+        hasError = false;
         width = 10;
         length = 10;
+        if (Rows < 1)
+        {
+            hasError = true;
+            Debug.LogException(new Exception("the 'Rows' property is invalid in Maze Generator"));
+        }
+        if (Columns < 1)
+        {
+            hasError = true;
+            Debug.LogException(new Exception("the 'Columns' property is invalid in Maze Generator"));
+        }
         rowScale = 10f / Convert.ToSingle(Rows);
         columnScale = 10f / Convert.ToSingle(Columns);
         wallHeight = WallHeight / 2;
-        if (UseSeed) { UnityEngine.Random.InitState(Seed); }
-        GenerateMaze();
+        if (UseSeed) 
+        { 
+            if (Seed < 1)
+            {
+                hasError = true;
+                Debug.LogException(new Exception("the 'Seed' property is invalid in Maze Generator"));
+            }
+            try
+            {
+                UnityEngine.Random.InitState(Seed);
+            }
+            catch (Exception e)
+            {
+                hasError = true;
+                Debug.LogException(e);
+            }
+        }
+        if (WallHeight <= 0)
+        {
+            hasError = true;
+            Debug.LogException(new Exception("the 'WallHeight' property is invalid in Maze Generator"));
+        }
+        if (!hasError)
+        {
+            GenerateMaze();
+        }
     }
 
     /// <summary>

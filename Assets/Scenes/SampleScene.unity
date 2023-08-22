@@ -512,12 +512,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WallPrefab: {fileID: 4277969212343039079, guid: 4682ac0eca9528b43a752e29467bce0c, type: 3}
-  Rows: 1
-  Columns: 1
-  WallHeight: 1
-  WallThickness: 0.25
-  UseSeed: 0
-  Seed: 0
+  Rows: 10
+  Columns: 6
+  WallHeight: 2
+  WallThickness: 2.91
+  UseSeed: 1
+  Seed: 60
 --- !u!64 &920071843
 MeshCollider:
   m_ObjectHideFlags: 0
